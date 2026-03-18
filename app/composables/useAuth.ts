@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 
 export function useAuth() {
-  const user = useCurrentUser()
+  const user = useState('firebase-user')
   const isAuthenticated = computed(() => !!user.value)
 
   function login(email: string, password: string) {

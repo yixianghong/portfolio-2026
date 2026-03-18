@@ -1,12 +1,8 @@
-import { getFirestore } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { getStorage } from 'firebase/storage'
-
 export function useFirebase() {
-  const app = useFirebaseApp()
+  const { $firebase } = useNuxtApp()
   return {
-    db: getFirestore(app),
-    auth: getAuth(app),
-    storage: getStorage(app)
+    db: $firebase.db,
+    auth: $firebase.auth,
+    storage: $firebase.storage
   }
 }

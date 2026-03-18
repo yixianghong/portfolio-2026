@@ -3,24 +3,38 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui',
-    'nuxt-vuefire'
+    '@nuxt/ui'
+  ],
+  plugins: [
+    '~/plugins/firebase.client',
+    '~/plugins/firebase-emulators.client'
   ],
   devtools: {
     enabled: true
   },
   css: ['~/assets/css/main.css'],
 
-  compatibilityDate: '2025-01-15',
-  nitro: {
-    preset: 'static'
+  runtimeConfig: {
+    public: {
+      firebaseApiKey: '',
+      firebaseAuthDomain: '',
+      firebaseProjectId: '',
+      firebaseStorageBucket: '',
+      firebaseMessagingSenderId: '',
+      firebaseAppId: ''
+    }
   },
+
+  routeRules: {
+    '/': { prerender: true },
+    '/admin/**': { ssr: false }
+  },
+  compatibilityDate: '2025-01-15',
   vite: {
     optimizeDeps: {
       include: [
         '@vue/devtools-core',
-        '@vue/devtools-kit',
-        'vuefire'
+        '@vue/devtools-kit'
       ]
     }
   },
@@ -30,20 +44,6 @@ export default defineNuxtConfig({
         commaDangle: 'never',
         braceStyle: '1tbs'
       }
-    }
-  },
-
-  vuefire: {
-    auth: {
-      enabled: true
-    },
-    config: {
-      apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
-      authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID
     }
   }
 })
