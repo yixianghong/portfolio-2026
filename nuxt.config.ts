@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { existsSync } from 'node:fs'
-
 export default defineNuxtConfig({
 
   modules: [
@@ -14,10 +12,13 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   routeRules: {
-    '/': { prerender: true },
+    '/': { prerender: false },
     '/admin/**': { ssr: false }
   },
   compatibilityDate: '2025-01-15',
+  nitro: {
+    preset: 'static'
+  },
   vite: {
     optimizeDeps: {
       include: [
