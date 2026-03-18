@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { existsSync } from 'node:fs'
+
 export default defineNuxtConfig({
 
   modules: [
@@ -12,7 +14,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   routeRules: {
-    '/': { prerender: false },
+    '/': { prerender: true },
     '/admin/**': { ssr: false }
   },
   compatibilityDate: '2025-01-15',
@@ -37,9 +39,6 @@ export default defineNuxtConfig({
   vuefire: {
     auth: {
       enabled: true
-    },
-    admin: {
-      serviceAccount: 'service-account.json'
     },
     config: {
       apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
