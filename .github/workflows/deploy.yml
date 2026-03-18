@@ -27,6 +27,13 @@ jobs:
       - name: Create service account file
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > service-account.json
 
+      - name: Verify service account file
+        run: |
+          jq -e '{type, project_id, client_email} | to_entries[] | select(.value == null or .value == "") | error("missing: \(.key)")' service-account.json || true
+          echo "project_id: $(jq -r '.project_id' service-account.json)"
+          echo "client_email: $(jq -r '.client_email' service-account.json)"
+          echo "type: $(jq -r '.type' service-account.json)"
+
       - name: Generate static site
         run: pnpm generate
         env:
