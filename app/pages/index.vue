@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import myPicUrl from '~/assets/image/mypic.jpg'
 
-const projects = [
-  {
-    title: 'EyeMall',
-    date: '2021.02',
-    tags: ['Vue2.0', 'Nuxt.js', 'RWD', 'Gitlab CI/CD', 'Google OAuth', 'FB OAuth', 'Node.js']
-  },
-  {
-    title: 'CRM 後台系統',
-    date: '2020.09',
-    tags: ['Html5', 'CSS3', 'RWD', 'JavaScript', 'ES6', 'Vue2', 'Vue CLI', 'C#', 'M-SQL', 'ASP.NET Core 3.1']
-  }
-] as const
+const { fetchWorks } = useWorks()
+
+const { data: featuredWorks } = await useAsyncData('featured-works', () => fetchWorks(true), {
+  server: false,
+  default: () => []
+})
 </script>
 
 <template>
@@ -27,26 +21,6 @@ const projects = [
             <p class="mt-6 text-muted text-pretty leading-relaxed">
               目前專注於 Vue.js、Nuxt.js 網頁開發，並持續研究主流技術。軟體開發帶給我很多的挑戰與成就感，未來也會持續吸收開發的技術和知識，期望能累積更多豐富有趣的作品！
             </p>
-
-            <div class="mt-8 flex flex-wrap gap-3">
-              <UButton
-                to="/#work"
-                color="primary"
-                size="xl"
-                trailing-icon="i-lucide-arrow-down"
-              >
-                Selected projects
-              </UButton>
-              <UButton
-                to="/work"
-                color="neutral"
-                variant="outline"
-                size="xl"
-                trailing-icon="i-lucide-arrow-right"
-              >
-                See all
-              </UButton>
-            </div>
           </div>
 
           <div class="flex justify-center md:justify-end">
@@ -87,32 +61,43 @@ const projects = [
       </div>
 
       <div class="mt-8 grid gap-6 sm:grid-cols-2">
-        <UCard
-          v-for="project in projects"
-          :key="project.title"
-          class="group transition will-change-transform hover:-translate-y-0.5 hover:shadow-lg"
+        <NuxtLink
+          v-for="work in featuredWorks"
+          :key="work.id"
+          :to="`/work/${work.id}`"
+          class="group block"
         >
-          <div class="flex flex-wrap gap-2">
-            <UBadge
-              v-for="tag in project.tags"
-              :key="tag"
-              color="primary"
-              variant="subtle"
-              class="font-normal"
+          <UCard class="h-full overflow-hidden transition will-change-transform group-hover:-translate-y-0.5 group-hover:shadow-lg">
+            <div
+              v-if="work.imageUrl"
+              class="-mx-4 -mt-4 mb-4 aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800"
             >
-              {{ tag }}
-            </UBadge>
-          </div>
+              <img
+                :src="work.imageUrl"
+                :alt="work.title"
+                class="h-full w-full object-cover transition group-hover:scale-105"
+              >
+            </div>
 
-          <div class="mt-5 flex items-baseline justify-between gap-3">
-            <h3 class="text-base font-semibold tracking-tight">
-              作品 - {{ project.title }}
-            </h3>
-            <span class="text-sm text-muted tabular-nums">
-              {{ project.date }}
-            </span>
-          </div>
-        </UCard>
+            <div class="flex flex-wrap gap-2">
+              <UBadge
+                v-for="tag in work.tags"
+                :key="tag"
+                color="primary"
+                variant="subtle"
+                class="font-normal"
+              >
+                {{ tag }}
+              </UBadge>
+            </div>
+
+            <div class="mt-3 flex items-baseline justify-between gap-3">
+              <h3 class="text-base font-semibold tracking-tight">
+                {{ work.title }}
+              </h3>
+            </div>
+          </UCard>
+        </NuxtLink>
       </div>
     </UPageSection>
   </div>
