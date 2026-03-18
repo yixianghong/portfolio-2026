@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "generate": "nuxt generate",
-    "dev": "nuxt dev",
+    "dev": "concurrently \"firebase emulators:start\" \"nuxt dev\"",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
