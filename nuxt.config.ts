@@ -33,7 +33,6 @@ export default defineNuxtConfig({
     '/admin/**': { ssr: false }
   },
   compatibilityDate: '2025-01-15',
-  nitro: { preset: 'firebase' },
   vite: {
     optimizeDeps: {
       include: [
