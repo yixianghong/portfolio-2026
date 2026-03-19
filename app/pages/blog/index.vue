@@ -27,7 +27,7 @@ function formatDate(ts: { toDate(): Date } | null | undefined) {
           Blog
         </h1>
         <p class="mt-2 text-muted">
-          技術文章與分享
+          技術文章與生活分享
         </p>
       </div>
     </div>

@@ -1,60 +1,81 @@
-# Nuxt Starter Template
+# Jason's Portfolio
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+個人作品集網站，使用 Nuxt 4 + Nuxt UI v4 建構，後端串接 Firebase。
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+## 技術棧
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+- **框架**：[Nuxt 4](https://nuxt.com) + [Nuxt UI v4](https://ui.nuxt.com)
+- **樣式**：TailwindCSS v4（透過 `@theme {}` 自訂主題）
+- **後端**：Firebase（Firestore / Auth / Storage）
+- **套件管理**：pnpm
+- **部署**：Firebase Hosting（靜態產生）
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png" width="830" height="466">
-  </picture>
-</a>
+## 功能
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+- 首頁、About、Work、Blog、Contact 公開頁面
+- 亮/暗模式切換（`UColorModeButton`）
+- 後台 CMS（`/admin`）：文章與作品的 CRUD
+- Firebase Auth 登入保護後台
+- Firebase Storage 圖片上傳
 
-## Quick Start
+## 開發
 
-```bash [Terminal]
-npm create nuxt@latest -- -t ui
-```
-
-## Deploy your own
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
-
-## Setup
-
-Make sure to install the dependencies:
+安裝依賴：
 
 ```bash
 pnpm install
 ```
 
-## Development Server
+設定環境變數（複製 `.env.example` 或直接建立 `.env`）：
 
-Start the development server on `http://localhost:3000`:
+```env
+NUXT_PUBLIC_FIREBASE_API_KEY=
+NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NUXT_PUBLIC_FIREBASE_PROJECT_ID=
+NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NUXT_PUBLIC_FIREBASE_APP_ID=
+```
+
+啟動開發伺服器（`http://localhost:3000`）：
 
 ```bash
 pnpm dev
 ```
 
-## Production
-
-Build the application for production:
+## 指令
 
 ```bash
-pnpm build
+pnpm dev          # 啟動開發伺服器
+pnpm generate     # 靜態產生（用於 Firebase Hosting 部署）
+pnpm deploy       # generate + 部署到 Firebase Hosting
+pnpm build        # 建構 Node.js 伺服器（非 Hosting 用途）
+pnpm preview      # 預覽生產建構
+pnpm lint         # ESLint 檢查
+pnpm typecheck    # Vue TSC 型別檢查
 ```
 
-Locally preview production build:
+> **Firebase Hosting 部署請使用 `pnpm generate` 或 `pnpm deploy`，勿使用 `pnpm build`。**
 
-```bash
-pnpm preview
+## 目錄結構
+
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+app/
+├── assets/css/main.css     # TailwindCSS 主題設定
+├── components/             # 共用元件
+├── composables/            # useFirebase / useAuth / usePosts / useWorks
+├── layouts/
+│   ├── default.vue         # 公開頁面 layout（header/footer）
+│   └── admin.vue           # 後台 layout（側邊欄）
+├── middleware/auth.ts       # 後台路由守衛
+├── pages/
+│   ├── index.vue
+│   ├── about.vue
+│   ├── work/
+│   ├── blog/
+│   ├── contact.vue
+│   └── admin/
+└── plugins/
+    ├── firebase.client.ts           # Firebase 初始化
+    └── firebase-emulators.client.ts # 開發環境 emulator 連線
+```
