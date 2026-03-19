@@ -8,7 +8,6 @@ definePageMeta({
 
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
-const { fetchContact, saveContact } = useContact()
 const { onUploadImg } = useEditorUpload()
 
 const content = ref('')
@@ -20,6 +19,7 @@ const success = ref(false)
 onMounted(async () => {
   loading.value = true
   try {
+    const { fetchContact } = useContact()
     content.value = await fetchContact()
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : '載入失敗'
@@ -33,6 +33,7 @@ async function handleSave() {
   success.value = false
   saving.value = true
   try {
+    const { saveContact } = useContact()
     await saveContact(content.value)
     success.value = true
   } catch (e: unknown) {

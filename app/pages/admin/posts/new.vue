@@ -8,7 +8,6 @@ definePageMeta({
 
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
-const { createPost } = usePosts()
 const { onUploadImg } = useEditorUpload()
 const router = useRouter()
 
@@ -47,6 +46,7 @@ async function handleSubmit() {
   error.value = ''
   loading.value = true
   try {
+    const { createPost } = usePosts()
     await createPost({
       title: form.title,
       slug: form.slug,

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import 'md-editor-v3/lib/style.css'
 
+import type { Work } from '~/composables/useWorks'
+
 definePageMeta({
   layout: 'admin',
   middleware: 'auth'
@@ -9,11 +11,20 @@ definePageMeta({
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
 const route = useRoute()
-const { fetchWork, updateWork } = useWorks()
 const router = useRouter()
 
-const { data: work } = useLazyAsyncData(`admin-work-${route.params.id}`, () =>
-  fetchWork(String(route.params.id)), { server: false })
+const work = ref<Work | null>(null)
+const pending = ref(true)
+
+onMounted(async () => {
+  pending.value = true
+  try {
+    const { fetchWork } = useWorks()
+    work.value = await fetchWork(String(route.params.id))
+  } finally {
+    pending.value = false
+  }
+})
 
 const form = reactive({
   title: '',
@@ -57,6 +68,7 @@ async function handleSubmit() {
   error.value = ''
   loading.value = true
   try {
+    const { updateWork } = useWorks()
     await updateWork(
       String(route.params.id),
       {
@@ -98,7 +110,14 @@ async function handleSubmit() {
     </div>
 
     <div
-      v-if="!work"
+      v-if="pending"
+      class="py-20 text-center text-muted"
+    >
+      載入中...
+    </div>
+
+    <div
+      v-else-if="!work"
       class="py-20 text-center text-muted"
     >
       找不到此作品。

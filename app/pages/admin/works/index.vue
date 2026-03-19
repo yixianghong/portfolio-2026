@@ -1,15 +1,25 @@
 <script setup lang="ts">
+import type { Work } from '~/composables/useWorks'
+
 definePageMeta({
   layout: 'admin',
   middleware: 'auth'
 })
 
-const { fetchWorks, deleteWork } = useWorks()
+const works = ref<Work[]>([])
+const pending = ref(true)
 
-const { data: works, refresh, pending } = useLazyAsyncData('admin-works', () => fetchWorks(), {
-  server: false,
-  default: () => []
-})
+async function refresh() {
+  pending.value = true
+  try {
+    const { fetchWorks } = useWorks()
+    works.value = await fetchWorks()
+  } finally {
+    pending.value = false
+  }
+}
+
+onMounted(() => refresh())
 
 const deleting = ref<string | null>(null)
 
@@ -17,6 +27,7 @@ async function handleDelete(id: string) {
   if (!confirm('確定要刪除此作品嗎？')) return
   deleting.value = id
   try {
+    const { deleteWork } = useWorks()
     await deleteWork(id)
     await refresh()
   } finally {

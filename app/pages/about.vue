@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { marked } from 'marked'
 
-const { fetchAbout } = useAbout()
+const content = ref('')
+const pending = ref(true)
 
-const { data: content, pending } = useLazyAsyncData('about', () => fetchAbout(), {
-  server: false
+onMounted(async () => {
+  try {
+    const { fetchAbout } = useAbout()
+    content.value = await fetchAbout()
+  } finally {
+    pending.value = false
+  }
 })
 
 const html = computed(() => {

@@ -1,9 +1,16 @@
 <script setup lang="ts">
-const { fetchWorks } = useWorks()
+import type { Work } from '~/composables/useWorks'
 
-const { data: works, pending } = useLazyAsyncData('works', () => fetchWorks(), {
-  server: false,
-  default: () => []
+const works = ref<Work[]>([])
+const pending = ref(true)
+
+onMounted(async () => {
+  try {
+    const { fetchWorks } = useWorks()
+    works.value = await fetchWorks()
+  } finally {
+    pending.value = false
+  }
 })
 
 const sortDesc = ref(true)

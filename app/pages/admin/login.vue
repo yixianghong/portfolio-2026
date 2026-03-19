@@ -1,12 +1,14 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
-const { login, isAuthenticated } = useAuth()
 const router = useRouter()
 
-if (isAuthenticated.value) {
-  await navigateTo('/admin/posts', { replace: true })
-}
+onMounted(async () => {
+  const { isAuthenticated } = useAuth()
+  if (isAuthenticated.value) {
+    await navigateTo('/admin/posts', { replace: true })
+  }
+})
 
 const email = ref('')
 const password = ref('')
@@ -17,6 +19,7 @@ async function handleLogin() {
   error.value = ''
   loading.value = true
   try {
+    const { login } = useAuth()
     await login(email.value, password.value)
     router.replace('/admin/posts')
   } catch (e: unknown) {

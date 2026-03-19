@@ -1,17 +1,25 @@
 <script setup lang="ts">
+import type { Post } from '~/composables/usePosts'
+
 definePageMeta({
   layout: 'admin',
   middleware: 'auth'
 })
 
-const { fetchPosts, deletePost } = usePosts()
+const posts = ref<Post[]>([])
+const pending = ref(true)
 
-const { data: posts, refresh, pending } = useLazyAsyncData('admin-posts', () => fetchPosts(true), {
-  server: false,
-  default: () => []
-})
+async function refresh() {
+  pending.value = true
+  try {
+    const { fetchPosts } = usePosts()
+    posts.value = await fetchPosts(true)
+  } finally {
+    pending.value = false
+  }
+}
 
-console.log(posts.value)
+onMounted(() => refresh())
 
 const deleting = ref<string | null>(null)
 
@@ -19,6 +27,7 @@ async function handleDelete(id: string) {
   if (!confirm('確定要刪除此文章嗎？')) return
   deleting.value = id
   try {
+    const { deletePost } = usePosts()
     await deletePost(id)
     await refresh()
   } finally {

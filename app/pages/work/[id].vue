@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { marked } from 'marked'
 
-const route = useRoute()
-const { fetchWork } = useWorks()
+import type { Work } from '~/composables/useWorks'
 
-const { data: work, pending } = useLazyAsyncData(`work-${route.params.id}`, () =>
-  fetchWork(String(route.params.id)), {
-  server: false
+const route = useRoute()
+
+const work = ref<Work | null>(null)
+const pending = ref(true)
+
+onMounted(async () => {
+  try {
+    const { fetchWork } = useWorks()
+    work.value = await fetchWork(String(route.params.id))
+  } finally {
+    pending.value = false
+  }
 })
 
 useSeoMeta({

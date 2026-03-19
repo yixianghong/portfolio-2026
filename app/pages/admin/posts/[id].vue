@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import 'md-editor-v3/lib/style.css'
 
+import type { Post } from '~/composables/usePosts'
+
 definePageMeta({
   layout: 'admin',
   middleware: 'auth'
@@ -9,12 +11,21 @@ definePageMeta({
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
 const route = useRoute()
-const { fetchPost, updatePost } = usePosts()
 const { onUploadImg } = useEditorUpload()
 const router = useRouter()
 
-const { data: post } = useLazyAsyncData(`admin-post-${route.params.id}`, () =>
-  fetchPost(String(route.params.id)), { server: false })
+const post = ref<Post | null>(null)
+const pending = ref(true)
+
+onMounted(async () => {
+  pending.value = true
+  try {
+    const { fetchPost } = usePosts()
+    post.value = await fetchPost(String(route.params.id))
+  } finally {
+    pending.value = false
+  }
+})
 
 const form = reactive({
   title: '',
@@ -46,6 +57,7 @@ async function handleSubmit() {
   error.value = ''
   loading.value = true
   try {
+    const { updatePost } = usePosts()
     await updatePost(String(route.params.id), {
       title: form.title,
       slug: form.slug,
@@ -81,7 +93,14 @@ async function handleSubmit() {
     </div>
 
     <div
-      v-if="!post"
+      v-if="pending"
+      class="py-20 text-center text-muted"
+    >
+      載入中...
+    </div>
+
+    <div
+      v-else-if="!post"
       class="py-20 text-center text-muted"
     >
       找不到此文章。

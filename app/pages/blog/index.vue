@@ -1,9 +1,16 @@
 <script setup lang="ts">
-const { fetchPosts } = usePosts()
+import type { Post } from '~/composables/usePosts'
 
-const { data: posts, pending } = useLazyAsyncData('blog-posts', () => fetchPosts(), {
-  server: false,
-  default: () => []
+const posts = ref<Post[]>([])
+const pending = ref(true)
+
+onMounted(async () => {
+  try {
+    const { fetchPosts } = usePosts()
+    posts.value = await fetchPosts()
+  } finally {
+    pending.value = false
+  }
 })
 
 function formatDate(ts: { toDate(): Date } | null | undefined) {

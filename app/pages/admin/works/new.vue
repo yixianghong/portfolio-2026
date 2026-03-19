@@ -8,7 +8,6 @@ definePageMeta({
 
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
-const { createWork } = useWorks()
 const router = useRouter()
 
 const form = reactive({
@@ -42,6 +41,7 @@ async function handleSubmit() {
   error.value = ''
   loading.value = true
   try {
+    const { createWork } = useWorks()
     await createWork(
       {
         title: form.title,
