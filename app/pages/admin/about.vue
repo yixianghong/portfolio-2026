@@ -45,7 +45,7 @@ async function handleSave() {
 </script>
 
 <template>
-  <div class="p-8">
+  <div class="p-4">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-xl font-semibold">
         About 頁面

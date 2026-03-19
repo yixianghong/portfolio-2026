@@ -42,7 +42,7 @@ function formatDate(ts: { toDate(): Date } | null | undefined) {
 </script>
 
 <template>
-  <div class="p-8">
+  <div class="p-4">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-xl font-semibold">
         文章管理

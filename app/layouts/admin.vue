@@ -1,6 +1,11 @@
 <script setup lang="ts">
 const { logout } = useAuth()
 const router = useRouter()
+const route = useRoute()
+
+const sidebarOpen = ref(false)
+
+watch(() => route.path, () => { sidebarOpen.value = false })
 
 async function handleLogout() {
   await logout()
@@ -10,7 +15,22 @@ async function handleLogout() {
 
 <template>
   <div class="flex min-h-screen bg-gray-50 dark:bg-gray-950">
-    <aside class="w-56 shrink-0 flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <!-- 手機 overlay 遮罩 -->
+    <div
+      v-if="sidebarOpen"
+      class="fixed inset-0 z-40 bg-black/50 md:hidden"
+      @click="sidebarOpen = false"
+    />
+
+    <!-- 側邊欄 -->
+    <aside
+      :class="[
+        'flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900',
+        'fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-200',
+        'md:relative md:w-56 md:translate-x-0',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      ]"
+    >
       <div class="px-4 py-5 border-b border-gray-200 dark:border-gray-800">
         <NuxtLink
           to="/"
@@ -83,7 +103,17 @@ async function handleLogout() {
       </div>
     </aside>
 
-    <main class="flex-1 overflow-auto">
+    <!-- 主內容區 -->
+    <main class="flex-1 overflow-auto min-w-0">
+      <!-- 手機版頂部 bar -->
+      <div class="flex items-center h-12 px-4 border-b border-gray-200 dark:border-gray-800 md:hidden bg-white dark:bg-gray-900">
+        <UButton
+          variant="ghost"
+          :icon="sidebarOpen ? 'i-lucide-x' : 'i-lucide-menu'"
+          @click="sidebarOpen = !sidebarOpen"
+        />
+        <span class="ml-3 text-sm font-semibold">Admin Panel</span>
+      </div>
       <slot />
     </main>
   </div>

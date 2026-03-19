@@ -93,7 +93,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="p-8">
+  <div class="p-4">
     <div class="flex items-center gap-4 mb-6">
       <NuxtLink
         to="/admin/works"
