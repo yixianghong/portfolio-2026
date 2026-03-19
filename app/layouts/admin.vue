@@ -5,7 +5,12 @@ const route = useRoute()
 
 const sidebarOpen = ref(false)
 
-watch(() => route.path, () => { sidebarOpen.value = false })
+watch(
+  () => route.path,
+  () => {
+    sidebarOpen.value = false
+  }
+)
 
 async function handleLogout() {
   await logout()
