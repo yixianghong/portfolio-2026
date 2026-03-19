@@ -46,6 +46,17 @@ async function handleLogout() {
           />
           Works
         </NuxtLink>
+        <NuxtLink
+          to="/admin/about"
+          class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+          active-class="bg-primary/10 text-primary"
+        >
+          <UIcon
+            name="i-lucide-user"
+            class="size-4 shrink-0"
+          />
+          About
+        </NuxtLink>
       </nav>
 
       <div class="px-3 py-4 border-t border-gray-200 dark:border-gray-800">

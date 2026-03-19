@@ -27,6 +27,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+    '/about': { ssr: false },
     '/work/**': { ssr: false },
     '/blog/**': { ssr: false },
     '/admin/**': { ssr: false }
