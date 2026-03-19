@@ -10,6 +10,7 @@ const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.M
 
 const route = useRoute()
 const { fetchPost, updatePost } = usePosts()
+const { onUploadImg } = useEditorUpload()
 const router = useRouter()
 
 const { data: post } = await useAsyncData(`admin-post-${route.params.id}`, () =>
@@ -144,6 +145,7 @@ async function handleSubmit() {
             v-if="MdEditor"
             v-model="form.content"
             style="height: 500px"
+            @on-upload-img="onUploadImg"
           />
           <template #fallback>
             <UTextarea

@@ -8,7 +8,7 @@ definePageMeta({
 
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
-const { fetchAbout, saveAbout } = useAbout()
+const { fetchContact, saveContact } = useContact()
 const { onUploadImg } = useEditorUpload()
 
 const content = ref('')
@@ -20,7 +20,7 @@ const success = ref(false)
 onMounted(async () => {
   loading.value = true
   try {
-    content.value = await fetchAbout()
+    content.value = await fetchContact()
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : '載入失敗'
   } finally {
@@ -33,7 +33,7 @@ async function handleSave() {
   success.value = false
   saving.value = true
   try {
-    await saveAbout(content.value)
+    await saveContact(content.value)
     success.value = true
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : '儲存失敗'
@@ -47,7 +47,7 @@ async function handleSave() {
   <div class="p-8">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-xl font-semibold">
-        About 頁面
+        Contact 頁面
       </h1>
       <UButton
         color="primary"

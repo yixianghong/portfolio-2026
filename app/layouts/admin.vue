@@ -57,6 +57,17 @@ async function handleLogout() {
           />
           About
         </NuxtLink>
+        <NuxtLink
+          to="/admin/contact"
+          class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+          active-class="bg-primary/10 text-primary"
+        >
+          <UIcon
+            name="i-lucide-mail"
+            class="size-4 shrink-0"
+          />
+          Contact
+        </NuxtLink>
       </nav>
 
       <div class="px-3 py-4 border-t border-gray-200 dark:border-gray-800">

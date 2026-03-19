@@ -9,6 +9,7 @@ definePageMeta({
 const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then(m => m.MdEditor))
 
 const { createPost } = usePosts()
+const { onUploadImg } = useEditorUpload()
 const router = useRouter()
 
 const form = reactive({
@@ -138,6 +139,7 @@ async function handleSubmit() {
             v-if="MdEditor"
             v-model="form.content"
             style="height: 500px"
+            @on-upload-img="onUploadImg"
           />
           <template #fallback>
             <UTextarea
