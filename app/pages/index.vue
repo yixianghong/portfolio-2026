@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import myPicUrl from '~/assets/image/mypic.jpg'
+import type { Work } from '~/composables/useWorks'
 
-const { fetchWorks } = useWorks()
+const featuredWorks = ref<Work[]>([])
 
-const { data: featuredWorks } = useLazyAsyncData('featured-works', () => fetchWorks(true), {
-  server: false,
-  default: () => []
+onMounted(async () => {
+  const { fetchWorks } = useWorks()
+  featuredWorks.value = await fetchWorks(true)
 })
 </script>
 

@@ -23,14 +23,7 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-    '/': { prerender: true },
-    '/about': { ssr: false, prerender: true },
-    '/contact': { ssr: false, prerender: true },
-    '/work': { ssr: false, prerender: true },
-    '/work/**': { ssr: false },
-    '/blog': { ssr: false, prerender: true },
-    '/blog/**': { ssr: false },
-    '/admin/**': { ssr: false }
+    '/': { prerender: true }
   },
   compatibilityDate: '2025-01-15',
   vite: {
