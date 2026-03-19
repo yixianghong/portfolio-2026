@@ -24,11 +24,11 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true },
-    '/about': { prerender: true },
-    '/contact': { prerender: true },
-    '/work': { prerender: true },
+    '/about': { ssr: false, prerender: true },
+    '/contact': { ssr: false, prerender: true },
+    '/work': { ssr: false, prerender: true },
     '/work/**': { ssr: false },
-    '/blog': { prerender: true },
+    '/blog': { ssr: false, prerender: true },
     '/blog/**': { ssr: false },
     '/admin/**': { ssr: false }
   },
