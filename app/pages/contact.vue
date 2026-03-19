@@ -3,7 +3,7 @@ import { marked } from 'marked'
 
 const { fetchContact } = useContact()
 
-const { data: content, pending } = await useAsyncData('contact', () => fetchContact(), {
+const { data: content, pending } = useLazyAsyncData('contact', () => fetchContact(), {
   server: false
 })
 

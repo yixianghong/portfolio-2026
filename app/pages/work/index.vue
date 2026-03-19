@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { fetchWorks } = useWorks()
 
-const { data: works, pending } = await useAsyncData('works', () => fetchWorks(), {
+const { data: works, pending } = useLazyAsyncData('works', () => fetchWorks(), {
   server: false,
   default: () => []
 })

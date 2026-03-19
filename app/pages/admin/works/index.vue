@@ -6,7 +6,7 @@ definePageMeta({
 
 const { fetchWorks, deleteWork } = useWorks()
 
-const { data: works, refresh, pending } = await useAsyncData('admin-works', () => fetchWorks(), {
+const { data: works, refresh, pending } = useLazyAsyncData('admin-works', () => fetchWorks(), {
   server: false,
   default: () => []
 })

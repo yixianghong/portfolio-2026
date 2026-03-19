@@ -6,7 +6,7 @@ definePageMeta({
 
 const { fetchPosts, deletePost } = usePosts()
 
-const { data: posts, refresh, pending } = await useAsyncData('admin-posts', () => fetchPosts(true), {
+const { data: posts, refresh, pending } = useLazyAsyncData('admin-posts', () => fetchPosts(true), {
   server: false,
   default: () => []
 })

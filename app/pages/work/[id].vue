@@ -4,7 +4,7 @@ import { marked } from 'marked'
 const route = useRoute()
 const { fetchWork } = useWorks()
 
-const { data: work, pending } = await useAsyncData(`work-${route.params.id}`, () =>
+const { data: work, pending } = useLazyAsyncData(`work-${route.params.id}`, () =>
   fetchWork(String(route.params.id)), {
   server: false
 })

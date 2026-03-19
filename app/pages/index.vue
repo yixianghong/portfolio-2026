@@ -3,7 +3,7 @@ import myPicUrl from '~/assets/image/mypic.jpg'
 
 const { fetchWorks } = useWorks()
 
-const { data: featuredWorks } = await useAsyncData('featured-works', () => fetchWorks(true), {
+const { data: featuredWorks } = useLazyAsyncData('featured-works', () => fetchWorks(true), {
   server: false,
   default: () => []
 })

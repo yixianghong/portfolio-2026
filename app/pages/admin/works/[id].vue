@@ -12,7 +12,7 @@ const route = useRoute()
 const { fetchWork, updateWork } = useWorks()
 const router = useRouter()
 
-const { data: work } = await useAsyncData(`admin-work-${route.params.id}`, () =>
+const { data: work } = useLazyAsyncData(`admin-work-${route.params.id}`, () =>
   fetchWork(String(route.params.id)), { server: false })
 
 const form = reactive({

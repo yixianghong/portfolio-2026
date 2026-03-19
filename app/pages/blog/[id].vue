@@ -4,7 +4,7 @@ import { marked } from 'marked'
 const route = useRoute()
 const { fetchPost } = usePosts()
 
-const { data: post, pending } = await useAsyncData(`blog-post-${route.params.id}`, () =>
+const { data: post, pending } = useLazyAsyncData(`blog-post-${route.params.id}`, () =>
   fetchPost(String(route.params.id)), {
   server: false
 })

@@ -13,7 +13,7 @@ const { fetchPost, updatePost } = usePosts()
 const { onUploadImg } = useEditorUpload()
 const router = useRouter()
 
-const { data: post } = await useAsyncData(`admin-post-${route.params.id}`, () =>
+const { data: post } = useLazyAsyncData(`admin-post-${route.params.id}`, () =>
   fetchPost(String(route.params.id)), { server: false })
 
 const form = reactive({

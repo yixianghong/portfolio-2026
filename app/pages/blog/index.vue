@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { fetchPosts } = usePosts()
 
-const { data: posts, pending } = await useAsyncData('blog-posts', () => fetchPosts(), {
+const { data: posts, pending } = useLazyAsyncData('blog-posts', () => fetchPosts(), {
   server: false,
   default: () => []
 })
