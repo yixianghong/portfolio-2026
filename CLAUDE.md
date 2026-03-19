@@ -6,11 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 pnpm dev          # Start dev server at http://localhost:3000
-pnpm build        # Build for production
+pnpm build        # Build for production (Node.js server output, NOT for Firebase Hosting)
+pnpm generate     # Static site generation for Firebase Hosting (produces .output/public with 200.html)
+pnpm deploy       # Generate + deploy to Firebase Hosting
 pnpm preview      # Preview production build
 pnpm lint         # ESLint
 pnpm typecheck    # Vue TSC type check
 ```
+
+> **Firebase Hosting 部署請使用 `pnpm generate`（或 `pnpm deploy`），勿使用 `pnpm build`。**
+> `nuxt build` 產生 Node.js 伺服器輸出，`.output/public` 不含 `200.html` SPA fallback，導致直接訪問路由出現 500 錯誤。
 
 Package manager is **pnpm**. There are no tests.
 
@@ -27,7 +32,8 @@ Nuxt 4 uses `app/` as the source root. All `pages/`, `components/`, `assets/`, e
 Configured in `nuxt.config.ts` via `routeRules`:
 
 - `/` — prerendered (SSG)
-- `/work/**`, `/blog/**`, `/admin/**` — `ssr: false` (client-side only)
+- `/about`, `/contact` — `ssr: false` (client-side only)
+- `/work`, `/work/**`, `/blog`, `/blog/**`, `/admin/**` — `ssr: false` (client-side only)
 
 ### Layouts
 

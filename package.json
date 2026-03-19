@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "generate": "nuxt generate",
+    "deploy": "nuxt generate && firebase deploy --only hosting",
     "dev": "concurrently \"firebase emulators:start\" \"nuxt dev\"",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
