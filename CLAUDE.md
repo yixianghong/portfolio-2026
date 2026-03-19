@@ -22,32 +22,61 @@ Package manager is **pnpm**. There are no tests.
 
 Nuxt 4 uses `app/` as the source root. All `pages/`, `components/`, `assets/`, etc. live under `app/`. The `~/` alias resolves to `app/`, not the project root.
 
-- `app/app.vue` — root layout (header, main, footer via Nuxt UI components)
-- `app/app.config.ts` — Nuxt UI theme colors (`primary: 'green'`, `neutral: 'slate'`)
-- `app/assets/css/main.css` — TailwindCSS entry point and custom `@theme` variables
-- `app/pages/index.vue` — homepage, prerendered (SSG)
+### Rendering strategy
+
+Configured in `nuxt.config.ts` via `routeRules`:
+
+- `/` — prerendered (SSG)
+- `/work/**`, `/blog/**`, `/admin/**` — `ssr: false` (client-side only)
+
+### Layouts
+
+- `app/layouts/default.vue` — public site layout (header/footer)
+- `app/layouts/admin.vue` — admin panel layout (sidebar with Posts/Works nav + logout)
+- Admin pages declare `layout: 'admin'` and `middleware: 'auth'` in `definePageMeta`
+
+### Firebase
+
+Firebase is initialized via a **custom Nuxt plugin** (`app/plugins/firebase.client.ts`), not nuxt-vuefire. It calls `initializeApp` with config from `useRuntimeConfig().public.*` and provides `{ app, auth, db, storage }` via `$firebase`.
+
+Auth state is tracked with `useState<User | null>('firebase-user')` synced by `onAuthStateChanged` inside the plugin.
+
+**Access Firebase in composables via `useFirebase()`**, which destructures `$firebase` from `useNuxtApp()`.
+
+In dev, `app/plugins/firebase-emulators.client.ts` auto-connects to local emulators (Firestore:8080, Auth:9099, Storage:9199). This is skipped in production (`import.meta.env.PROD`).
+
+**Runtime config env vars** (prefix with `NUXT_PUBLIC_`):
+- `NUXT_PUBLIC_FIREBASE_API_KEY`
+- `NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+- `NUXT_PUBLIC_FIREBASE_PROJECT_ID`
+- `NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+- `NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+- `NUXT_PUBLIC_FIREBASE_APP_ID`
+
+### Composables
+
+- `useFirebase()` — returns `{ db, auth, storage }` from plugin
+- `useAuth()` — login/logout, exposes `user` (the `useState` ref) and `isAuthenticated`
+- `usePosts()` — Firestore CRUD for `posts` collection; `fetchPosts(adminMode)` skips the `published` filter in admin mode
+- `useWorks()` — Firestore CRUD + Firebase Storage upload for `works` collection
+
+### Auth middleware
+
+`app/middleware/auth.ts` — named middleware that waits for Firebase auth state via a `Promise`-wrapped `onAuthStateChanged`, then redirects unauthenticated users to `/admin/login`.
 
 ### Styling
 
-TailwindCSS v4 — **no `tailwind.config.js`**. All customization (colors, fonts, breakpoints, animations) is done in `app/assets/css/main.css` via the `@theme {}` directive.
-
-```css
-/* Add custom tokens here */
-@theme {
-  --color-primary-500: oklch(...);
-  --font-sans: 'Inter', ...;
-}
-```
+TailwindCSS v4 — **no `tailwind.config.js`**. All customization is done in `app/assets/css/main.css` via the `@theme {}` directive.
 
 ### Icons
 
 Icons use Iconify format via class names:
-- `i-lucide-*` — Lucide icons (`@iconify-json/lucide`)
-- `i-simple-icons-*` — Simple Icons (`@iconify-json/simple-icons`)
+- `i-lucide-*` — Lucide icons
+- `i-simple-icons-*` — Simple Icons
 
 ### ESLint
 
-Configured with `@nuxt/eslint` stylistic rules: no trailing commas (`commaDangle: 'never'`), 1TBS brace style.
+Configured with `@nuxt/eslint` stylistic rules: no trailing commas (`commaDangle: 'never'`), 1TBS brace style. `@typescript-eslint/no-explicit-any` is an error — use `unknown` or specific types.
 
 ### CI
 
