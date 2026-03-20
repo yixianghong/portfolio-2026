@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import myPicUrl from '~/assets/image/mypic.jpg'
 import type { Work } from '~/composables/useWorks'
 
 const featuredWorks = ref<Work[]>([])
@@ -26,13 +25,16 @@ onMounted(async () => {
 
           <div class="flex justify-center md:justify-end">
             <div class="relative">
-              <img
-                :src="myPicUrl"
+              <NuxtImg
+                src="/mypic.jpg"
                 alt="Jason"
                 class="h-72 w-72 rounded-3xl object-cover shadow-lg ring-1 ring-gray-200 dark:ring-gray-800 sm:h-80 sm:w-80"
+                format="webp"
+                quality="80"
+                width="320"
+                height="320"
                 loading="eager"
-                decoding="async"
-              >
+              />
               <div class="pointer-events-none absolute -inset-3 -z-10 rounded-2 bg-primary/5 blur-2xl" />
             </div>
           </div>

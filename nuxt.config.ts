@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxt/image'
   ],
   plugins: [
     '~/plugins/firebase.client',
@@ -41,5 +42,10 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+  image: {
+    dir: 'assets/image/format',
+    format: ['webp'],
+    quality: 80
   }
 })
