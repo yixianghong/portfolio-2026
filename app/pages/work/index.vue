@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { Work } from '~/composables/useWorks'
 
+useSeoMeta({
+  title: 'Works | Jason Hong',
+  description: 'Jason Hong 的作品集。',
+  ogTitle: 'Works | Jason Hong',
+  ogDescription: 'Jason Hong 的作品集。'
+})
+
 const works = ref<Work[]>([])
 const pending = ref(true)
 

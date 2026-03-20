@@ -7,19 +7,21 @@ useHead({
     { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'en'
+    lang: 'zh-TW'
   }
 })
 
-const title = 'Jason\'s Portfolio'
-const description = 'Jason\'s Portfolio'
+const title = 'Jason Hong | 前端工程師'
+const description = '前端軟體工程師，專注於 Vue.js、Nuxt.js 網頁開發。'
 
 useSeoMeta({
   title,
   description,
   ogTitle: title,
   ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png'
+  ogImage: '/og-image.png',
+  twitterCard: 'summary_large_image',
+  twitterImage: '/og-image.png'
 })
 </script>
 

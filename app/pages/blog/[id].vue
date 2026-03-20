@@ -9,6 +9,13 @@ const { data: post, pending } = useLazyAsyncData(`blog-post-${route.params.id}`,
   server: false
 })
 
+useSeoMeta({
+  title: () => post.value?.title ? `${post.value.title} | Jason Hong` : 'Blog | Jason Hong',
+  description: () => post.value?.excerpt ?? '技術文章與生活分享。',
+  ogTitle: () => post.value?.title ? `${post.value.title} | Jason Hong` : 'Blog | Jason Hong',
+  ogDescription: () => post.value?.excerpt ?? '技術文章與生活分享。'
+})
+
 const html = computed(() => {
   if (!post.value?.content) return ''
   return marked.parse(post.value.content) as string

@@ -18,8 +18,10 @@ onMounted(async () => {
 })
 
 useSeoMeta({
-  title: () => work.value?.title ?? 'Work',
-  description: () => work.value?.description?.slice(0, 160) ?? ''
+  title: () => work.value?.title ? `${work.value.title} | Jason Hong` : 'Works | Jason Hong',
+  description: () => work.value?.description?.slice(0, 160) ?? 'Jason Hong 的作品集。',
+  ogTitle: () => work.value?.title ? `${work.value.title} | Jason Hong` : 'Works | Jason Hong',
+  ogDescription: () => work.value?.description?.slice(0, 160) ?? 'Jason Hong 的作品集。'
 })
 
 const html = computed(() => {

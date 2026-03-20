@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { Post } from '~/composables/usePosts'
 
+useSeoMeta({
+  title: 'Blog | Jason Hong',
+  description: '技術文章與生活分享。',
+  ogTitle: 'Blog | Jason Hong',
+  ogDescription: '技術文章與生活分享。'
+})
+
 const posts = ref<Post[]>([])
 const pending = ref(true)
 

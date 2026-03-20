@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { marked } from 'marked'
 
+useSeoMeta({
+  title: 'Contact | Jason Hong',
+  description: '歡迎與 Jason Hong 聯絡，洽談專案合作或技術交流。',
+  ogTitle: 'Contact | Jason Hong',
+  ogDescription: '歡迎與 Jason Hong 聯絡，洽談專案合作或技術交流。'
+})
+
 const content = ref('')
 const pending = ref(true)
 
