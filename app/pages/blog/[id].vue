@@ -72,6 +72,13 @@ function formatDate(ts: { toDate(): Date } | null | undefined) {
       </div>
 
       <div
+        v-if="post.excerpt"
+        class="mb-8 rounded-lg border-l-4 border-primary bg-primary/5 px-5 py-4 text-base text-muted italic"
+      >
+        {{ post.excerpt }}
+      </div>
+
+      <div
         class="prose dark:prose-invert max-w-none"
         v-html="html"
       />
