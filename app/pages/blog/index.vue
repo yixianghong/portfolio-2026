@@ -58,7 +58,7 @@ function formatDate(ts: { toDate(): Date } | null | undefined) {
 
     <div
       v-else
-      class="mt-10 grid gap-6"
+      class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
       <NuxtLink
         v-for="post in posts"
@@ -66,30 +66,30 @@ function formatDate(ts: { toDate(): Date } | null | undefined) {
         :to="`/blog/${post.id}`"
         class="block"
       >
-        <UCard class="transition hover:-translate-y-0.5 hover:shadow-lg">
-          <div class="flex items-start justify-between gap-4">
-            <div>
+        <UCard class="h-full transition hover:-translate-y-0.5 hover:shadow-lg">
+          <div class="flex h-full flex-col">
+            <div class="flex-1">
               <h2 class="text-lg font-semibold tracking-tight">
                 {{ post.title }}
               </h2>
-              <p class="mt-1 text-sm text-muted line-clamp-2">
+              <p class="mt-2 text-sm text-muted line-clamp-3">
                 {{ post.excerpt }}
               </p>
             </div>
-            <span class="shrink-0 text-sm text-muted tabular-nums">
+            <div class="mt-4 flex flex-wrap gap-2">
+              <UBadge
+                v-for="tag in post.tags"
+                :key="tag"
+                color="primary"
+                variant="subtle"
+                class="font-normal"
+              >
+                {{ tag }}
+              </UBadge>
+            </div>
+            <span class="mt-4 block text-xs text-muted tabular-nums">
               {{ formatDate(post.createdAt) }}
             </span>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <UBadge
-              v-for="tag in post.tags"
-              :key="tag"
-              color="primary"
-              variant="subtle"
-              class="font-normal"
-            >
-              {{ tag }}
-            </UBadge>
           </div>
         </UCard>
       </NuxtLink>
