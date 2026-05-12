@@ -2,7 +2,7 @@
   <img
     :src="logoUrl"
     alt="Jason"
-    class="w-[75px] h-[75px]"
+    class="w-18.75 h-18.75"
     decoding="async"
   >
 </template>
