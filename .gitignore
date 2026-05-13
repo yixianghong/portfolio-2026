@@ -23,3 +23,6 @@ logs
 .env.*
 !.env.example
 serviceAccount.json
+
+# IDE files
+.vscode
